@@ -1,4 +1,4 @@
-// js/builder.js (FINAL - Auto-detect broker + separate JPG/PNG photos + fit contact block)
+// js/builder.js (FINAL - Broker dropdown + separate JPG/PNG photos + fit contact block)
 
 async function waitForElement(selector, root = document, timeout = 1500) {
   const start = Date.now();
@@ -23,52 +23,78 @@ function getImageDataUrl(inputId) {
   });
 }
 
-function normalizeSpaces(s = "") {
-  return s.replace(/\s+/g, " ").trim();
-}
-
-function slugifyName(name = "") {
-  return name
-    .toLowerCase()
-    .replace(/[^a-z\s-]/g, "")
-    .replace(/\s+/g, "-")
-    .replace(/-+/g, "-")
-    .trim();
-}
-
 // -----------------------------------------
 // Broker library (JPG for catalogue, PNG for presentation)
-// Add everyone here over time.
 // -----------------------------------------
 const BROKERS = {
-  "jodi-bedil": {
-    brokerName: "JODI BEDIL",
-    brokerPhone: "076 637 1273",
-    brokerEmail: "jodib@auctioninc.co.za",
-    brokerPhotoCatalogue: "assets/brokers/jodi-bedil/catalogue.jpg",
-    brokerPhotoPresentation: "assets/brokers/jodi-bedil/presentation.png"
-  },
   "alex-krause": {
+    displayName: "Alex Krause",
     brokerName: "ALEX KRAUSE",
     brokerPhone: "078 549 2029",
     brokerEmail: "alex@auctioninc.co.za",
     brokerPhotoCatalogue: "assets/brokers/alex-krause/catalogue.jpg",
     brokerPhotoPresentation: "assets/brokers/alex-krause/presentation.png"
   },
+  "jodi-bedil": {
+    displayName: "Jodi Bedil",
+    brokerName: "JODI BEDIL",
+    brokerPhone: "076 637 1273",
+    brokerEmail: "jodib@auctioninc.co.za",
+    brokerPhotoCatalogue: "assets/brokers/jodi-bedil/catalogue.jpg",
+    brokerPhotoPresentation: "assets/brokers/jodi-bedil/presentation.png"
+  },
   "gary-brower": {
+    displayName: "Gary Brower",
     brokerName: "GARY BROWER",
-    brokerPhone: "",   // fill in once you add it
-    brokerEmail: "",   // fill in once you add it
+    brokerPhone: "",   // fill in
+    brokerEmail: "",   // fill in
     brokerPhotoCatalogue: "assets/brokers/gary-brower/catalogue.jpg",
     brokerPhotoPresentation: "assets/brokers/gary-brower/presentation.png"
   }
-  // Add the rest of AuctionInc brokers the same way
+  // Add more brokers here...
 };
 
+// Optional: a safe default if someone forgets to choose
+const DEFAULT_BROKER_SLUG = "alex-krause";
+
 // -----------------------------------------
-// DOCX extraction (strict broker parsing)
-// Supports:
-// "Broker: Jodi Bedil | 076 637 1273 | jodib@auctioninc.co.za"
+// Populate broker dropdown on load
+// -----------------------------------------
+function populateBrokerDropdown() {
+  const select = document.getElementById("broker-select");
+  if (!select) return;
+
+  const entries = Object.entries(BROKERS);
+
+  // Sort by display name for friendliness
+  entries.sort((a, b) => {
+    const an = (a[1].displayName || a[0]).toLowerCase();
+    const bn = (b[1].displayName || b[0]).toLowerCase();
+    return an.localeCompare(bn);
+  });
+
+  select.innerHTML = "";
+
+  // Add options
+  for (const [slug, b] of entries) {
+    const opt = document.createElement("option");
+    opt.value = slug;
+    opt.textContent = b.displayName || b.brokerName || slug;
+    select.appendChild(opt);
+  }
+
+  // Default selection
+  if (BROKERS[DEFAULT_BROKER_SLUG]) {
+    select.value = DEFAULT_BROKER_SLUG;
+  } else if (select.options.length) {
+    select.selectedIndex = 0;
+  }
+}
+
+document.addEventListener("DOMContentLoaded", populateBrokerDropdown);
+
+// -----------------------------------------
+// DOCX extraction (property fields ONLY - no broker parsing)
 // -----------------------------------------
 async function extractDocxFields() {
   const file = document.getElementById("docx-file")?.files?.[0];
@@ -85,7 +111,6 @@ async function extractDocxFields() {
     .map(t => (t.textContent || "").trim())
     .filter(Boolean);
 
-  // Standard fields
   const fieldMap = {
     "Headline": "headline",
     "City": "city",
@@ -115,56 +140,27 @@ async function extractDocxFields() {
     }
   }
 
-  // ✅ Strict broker parse
-  // Find first text chunk that contains "broker"
-  const brokerLine = texts.find(t => /broker/i.test(t)) || "";
-  // Example: "Broker: Jodi Bedil | 076 637 1273 | jodib@auctioninc.co.za"
-  let brokerName = "";
-  let brokerPhone = "";
-  let brokerEmail = "";
-
-  if (brokerLine) {
-    const afterColon = brokerLine.split(":").slice(1).join(":").trim();
-    const parts = afterColon.split("|").map(p => normalizeSpaces(p));
-    brokerName = (parts[0] || "").trim();
-    brokerPhone = (parts[1] || "").trim();
-    brokerEmail = (parts[2] || "").trim();
-  }
-
-  values.docxBrokerName = brokerName;
-  values.docxBrokerPhone = brokerPhone;
-  values.docxBrokerEmail = brokerEmail;
-
   return values;
 }
 
 // -----------------------------------------
-// Data collection
+// Data collection (broker comes from dropdown)
 // -----------------------------------------
 async function collectCatalogueFormData() {
   const docxFields = await extractDocxFields();
 
-  const nameRaw = (docxFields.docxBrokerName || "AUCTIONINC").trim();
-  const nameUpper = nameRaw ? nameRaw.toUpperCase() : "AUCTIONINC";
-  const slug = slugifyName(nameRaw);
+  const selectedSlug =
+    document.getElementById("broker-select")?.value ||
+    DEFAULT_BROKER_SLUG;
 
-  // Defaults if broker not in library yet:
-  let brokerName = nameUpper;
-  let brokerPhone = docxFields.docxBrokerPhone || "";
-  let brokerEmail = docxFields.docxBrokerEmail || "";
+  const broker = BROKERS[selectedSlug] || BROKERS[DEFAULT_BROKER_SLUG];
 
-  // Default fallback images (you can keep Alex as fallback, or add a generic)
-  let brokerPhotoCatalogue = "assets/brokers/alex-krause/catalogue.jpg";
-  let brokerPhotoPresentation = "assets/brokers/alex-krause/presentation.png";
-
-  // If broker exists in library, use canonical details + correct photos
-  if (BROKERS[slug]) {
-    brokerName = BROKERS[slug].brokerName || brokerName;
-    brokerPhone = BROKERS[slug].brokerPhone || brokerPhone;
-    brokerEmail = BROKERS[slug].brokerEmail || brokerEmail;
-    brokerPhotoCatalogue = BROKERS[slug].brokerPhotoCatalogue || brokerPhotoCatalogue;
-    brokerPhotoPresentation = BROKERS[slug].brokerPhotoPresentation || brokerPhotoPresentation;
-  }
+  // Fallbacks so nothing breaks even if missing info
+  const brokerName = (broker?.brokerName || "AUCTIONINC").toUpperCase();
+  const brokerPhone = broker?.brokerPhone || "";
+  const brokerEmail = broker?.brokerEmail || "";
+  const brokerPhotoCatalogue = broker?.brokerPhotoCatalogue || "";
+  const brokerPhotoPresentation = broker?.brokerPhotoPresentation || "";
 
   return {
     ...docxFields,
@@ -187,7 +183,7 @@ async function loadTemplate(templatePath, targetId, data) {
   const res = await fetch(templatePath);
   let html = await res.text();
 
-  // ✅ Add dash before headline ONLY for catalogue_page
+  // Add dash before headline ONLY for catalogue_page
   if (templatePath.includes('catalogue_page')) {
     if (data.headline && !data.headline.trim().startsWith('-')) {
       data.headline = '- ' + data.headline.trim();
@@ -265,7 +261,6 @@ function fitSpanToBox(span, maxWidth, maxHeight, startSize = 80, minSize = 10) {
   let fontSize = startSize;
   span.style.fontSize = fontSize + 'px';
 
-  // quick measurement loop
   while ((span.scrollWidth > maxWidth || span.scrollHeight > maxHeight) && fontSize > minSize) {
     fontSize--;
     span.style.fontSize = fontSize + 'px';
@@ -273,7 +268,6 @@ function fitSpanToBox(span, maxWidth, maxHeight, startSize = 80, minSize = 10) {
 }
 
 function runFontResize(container) {
-  // Standard single-span textboxes (unchanged)
   const singleSpanIds = [
     'textboxA','textboxB','textboxC','textboxD',
     'textbox_1_Red_Tag','textbox_2_Red_Tag',
@@ -292,12 +286,11 @@ function runFontResize(container) {
     fitSpanToBox(span, maxW, maxH, 120, 8);
   });
 
-  // ✅ Catalogue contact details: fit each line so nothing overlaps
+  // Catalogue contact details: fit each line so nothing overlaps
   const contact = container.querySelector('#textbox_Contact_Details');
   if (contact) {
     const spans = contact.querySelectorAll('span');
     spans.forEach((sp) => {
-      // each line must fit width; height is line height-ish
       fitSpanToBox(sp, contact.clientWidth - 10, 45, 42, 18);
     });
   }
