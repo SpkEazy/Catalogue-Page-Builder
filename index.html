@@ -1,4 +1,3 @@
-<!-- index.html (FINAL - includes broker selector + custom broker fields) -->
 <!DOCTYPE html>
 <html>
 <head>
@@ -8,80 +7,37 @@
   <link rel="stylesheet" href="css/style.css" />
   <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
   <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@900&display=swap" rel="stylesheet">
-  <script src="https://unpkg.com/docx@8.3.0/build/index.umd.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
 
   <style>
-    .preview-panel {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 30px;
-      margin-top: 20px;
-    }
-    .preview-box {
-      background: #f4f4f4;
-      border: 2px solid #ccc;
-      padding: 10px;
-      box-shadow: 0 0 8px rgba(0, 0, 0, 0.1);
-      overflow: auto;
-    }
+    .preview-panel { display:flex; flex-wrap:wrap; gap:30px; margin-top:20px; }
+    .preview-box { background:#f4f4f4; border:2px solid #ccc; padding:10px; box-shadow:0 0 8px rgba(0,0,0,.1); overflow:auto; }
+    .hint { font-size: 14px; opacity:.75; margin: 6px 0 14px; }
   </style>
 </head>
 
 <body>
   <form id="input-form" spellcheck="true" lang="en-GB">
-    <label style="display: block; margin-bottom: 10px;">
+    <label style="display:block; margin-bottom:10px;">
       Lot Number:
-      <input type="text" id="lot" style="width: 100%;" placeholder="e.g. LOT 11" />
+      <input type="text" id="lot" style="width:100%;" placeholder="e.g. LOT 11" />
     </label>
 
-    <label style="display: block; margin-bottom: 10px;">
+    <label style="display:block; margin-bottom:10px;">
       Upload Property Image:
       <input type="file" id="property-img" accept="image/*" />
     </label>
 
-    <label style="display: block; margin-bottom: 10px;">
+    <label style="display:block; margin-bottom:10px;">
       Upload Map Image:
       <input type="file" id="map-img" accept="image/*" />
     </label>
 
-    <label style="display: block; margin-bottom: 10px;">
-      Upload Word Document:
+    <label style="display:block; margin-bottom:6px;">
+      Upload Word Document (Property Summary):
       <input type="file" id="docx-file" accept=".docx" />
     </label>
-
-    <!-- ✅ Broker selection -->
-    <label style="display: block; margin-bottom: 10px;">
-      Broker:
-      <select id="broker-select" style="width: 100%; max-width: 600px;">
-        <option value="AUTO">Auto-detect from Property Summary (DOCX)</option>
-        <option value="ALEX">Alex Krause</option>
-        <option value="CUSTOM">Custom (manual entry)</option>
-      </select>
-    </label>
-
-    <!-- ✅ Custom broker inputs -->
-    <div id="custom-broker-fields" style="display:none; margin-bottom: 10px;">
-      <label style="display:block; margin-bottom: 10px;">
-        Broker Name:
-        <input type="text" id="broker-name" placeholder="e.g. Alex Krause" />
-      </label>
-
-      <label style="display:block; margin-bottom: 10px;">
-        Broker Phone:
-        <input type="text" id="broker-phone" placeholder="e.g. 078 549 2029" />
-      </label>
-
-      <label style="display:block; margin-bottom: 10px;">
-        Broker Email:
-        <input type="text" id="broker-email" placeholder="e.g. alex@auctioninc.co.za" />
-      </label>
-
-      <label style="display:block; margin-bottom: 10px;">
-        Broker Photo (optional override for BOTH outputs):
-        <input type="file" id="broker-photo" accept="image/*" />
-      </label>
-    </div>
+    <div class="hint">Broker details are auto-detected from the DOCX.</div>
 
     <button type="button" onclick="generateAndDownload('catalogue_page')">
       Download Catalogue Page
@@ -108,3 +64,5 @@
   <script src="js/builder.js"></script>
 </body>
 </html>
+
+
