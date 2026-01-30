@@ -1,4 +1,4 @@
-<!-- templates/presentation.html (FINAL - separate broker photo placeholder) -->
+<!-- templates/presentation.html (FINAL - uses assets/shared + brokerPhotoPresentation) -->
 <!DOCTYPE html>
 <html>
 <head>
@@ -108,16 +108,19 @@
 
 <body>
   <div id="capture-container-presentation" style="position: relative; width: 1920px; height: 1080px;">
-    <img src="assets/background-image.jpg" class="overlay-image_background" alt="Background Image">
+
+    <!-- ✅ SHARED assets -->
+    <img src="assets/shared/background-image.jpg" class="overlay-image_background" alt="Background Image">
+    <img src="assets/shared/red-tag.png" class="overlay-image_red-tag" alt="Red Tag">
+    <img src="assets/shared/AI-logo.png" class="overlay-image_AI-logo" alt="AI Logo">
+    <img src="assets/shared/red-banner.png" class="overlay-image_red-banner" alt="Red Banner">
+
+    <!-- ✅ Dynamic images -->
     <img src="{{propertyImage}}" class="overlay-image_property" alt="Property Image">
     <img src="{{mapImage}}" class="overlay-image_map" alt="Property Map">
 
-    <!-- ✅ Presentation uses its own broker photo -->
+    <!-- ✅ Presentation uses its own broker photo (PNG path from builder.js) -->
     <img src="{{brokerPhotoPresentation}}" class="overlay-image_broker-photo" alt="Broker Photo">
-
-    <img src="assets/red-tag.png" class="overlay-image_red-tag" alt="Red Tag">
-    <img src="assets/AI-logo.png" class="overlay-image_AI-logo" alt="AI Logo">
-    <img src="assets/red-banner.png" class="overlay-image_red-banner" alt="Red Banner">
 
     <div class="textbox_Red_Banner" id="textbox_Red_Banner" style="top: 40px; left: 15px;">
       <span id="lot-span">LOT {{lot}}</span>
@@ -158,6 +161,9 @@
     <div class="textbox_2_Broker_Number" id="textbox_2_Broker_Number">
       <span>{{brokerPhone}}</span>
     </div>
+
   </div>
 </body>
 </html>
+
+
