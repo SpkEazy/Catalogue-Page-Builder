@@ -32,8 +32,8 @@ const BROKERS = {
     brokerName: "ALEX KRAUSE",
     brokerPhone: "078 549 2029",
     brokerEmail: "alex@auctioninc.co.za",
-    brokerPhotoCatalogue: "assets/brokers/alex-krause/catalogue.jpg",
-    brokerPhotoPresentation: "assets/brokers/alex-krause/presentation.png"
+    brokerPhotoCatalogue: "assets/brokers/alex-krause/broker-photo.jpg",
+    brokerPhotoPresentation: "assets/brokers/alex-krause/broker-photo.png"
   },
 
   "bongane-khumalo": {
@@ -41,8 +41,8 @@ const BROKERS = {
     brokerName: "BONGANE KHUMALO",
     brokerPhone: "073 785 5100",
     brokerEmail: "bongane@auctioninc.co.za",
-    brokerPhotoCatalogue: "assets/brokers/bongane-khumalo/catalogue.jpg",
-    brokerPhotoPresentation: "assets/brokers/bongane-khumalo/presentation.png"
+    brokerPhotoCatalogue: "assets/brokers/bongane-khumalo/broker-photo.jpg",
+    brokerPhotoPresentation: "assets/brokers/bongane-khumalo/broker-photo.png"
   },
 
   "cliff-matshatsha": {
@@ -50,8 +50,8 @@ const BROKERS = {
     brokerName: "CLIFF MATSHATSHA",
     brokerPhone: "082 099 8692",
     brokerEmail: "cliff@auctioninc.co.za",
-    brokerPhotoCatalogue: "assets/brokers/cliff-matshatsha/catalogue.jpg",
-    brokerPhotoPresentation: "assets/brokers/cliff-matshatsha/presentation.png"
+    brokerPhotoCatalogue: "assets/brokers/cliff-matshatsha/broker-photo.jpg",
+    brokerPhotoPresentation: "assets/brokers/cliff-matshatsha/broker-photo.png"
   },
 
   "daniel-wachenheimer": {
@@ -59,8 +59,8 @@ const BROKERS = {
     brokerName: "DANIEL WACHENHEIMER",
     brokerPhone: "082 740 2856",
     brokerEmail: "daniel@auctioninc.co.za",
-    brokerPhotoCatalogue: "assets/brokers/daniel-wachenheimer/catalogue.jpg",
-    brokerPhotoPresentation: "assets/brokers/daniel-wachenheimer/presentation.png"
+    brokerPhotoCatalogue: "assets/brokers/daniel-wachenheimer/broker-photo.jpg",
+    brokerPhotoPresentation: "assets/brokers/daniel-wachenheimer/broker-photo.png"
   },
 
   "dean-doucha": {
@@ -68,8 +68,8 @@ const BROKERS = {
     brokerName: "DEAN DOUCHA",
     brokerPhone: "082 374 5565",
     brokerEmail: "dean@auctioninc.co.za",
-    brokerPhotoCatalogue: "assets/brokers/dean-doucha/catalogue.jpg",
-    brokerPhotoPresentation: "assets/brokers/dean-doucha/presentation.png"
+    brokerPhotoCatalogue: "assets/brokers/dean-doucha/broker-photo.jpg",
+    brokerPhotoPresentation: "assets/brokers/dean-doucha/broker-photo.png"
   },
 
   "doron-sacks": {
@@ -77,8 +77,8 @@ const BROKERS = {
     brokerName: "DORON SACKS",
     brokerPhone: "082 550 7081",
     brokerEmail: "doron@auctioninc.co.za",
-    brokerPhotoCatalogue: "assets/brokers/doron-sacks/catalogue.jpg",
-    brokerPhotoPresentation: "assets/brokers/doron-sacks/presentation.png"
+    brokerPhotoCatalogue: "assets/brokers/doron-sacks/broker-photo.jpg",
+    brokerPhotoPresentation: "assets/brokers/doron-sacks/broker-photo.png"
   },
 
   "elki-medalie": {
@@ -86,8 +86,8 @@ const BROKERS = {
     brokerName: "ELKI MEDALIE",
     brokerPhone: "083 764 5370",
     brokerEmail: "elki@auctioninc.co.za",
-    brokerPhotoCatalogue: "assets/brokers/elki-medalie/catalogue.jpg",
-    brokerPhotoPresentation: "assets/brokers/elki-medalie/presentation.png"
+    brokerPhotoCatalogue: "assets/brokers/elki-medalie/broker-photo.jpg",
+    brokerPhotoPresentation: "assets/brokers/elki-medalie/broker-photo.png"
   },
 
   "gary-brower": {
@@ -95,8 +95,8 @@ const BROKERS = {
     brokerName: "GARY BROWER",
     brokerPhone: "082 352 5552",
     brokerEmail: "garyb@auctioninc.co.za",
-    brokerPhotoCatalogue: "assets/brokers/gary-brower/catalogue.jpg",
-    brokerPhotoPresentation: "assets/brokers/gary-brower/presentation.png"
+    brokerPhotoCatalogue: "assets/brokers/gary-brower/broker-photo.jpg",
+    brokerPhotoPresentation: "assets/brokers/gary-brower/broker-photo.png"
   },
 
   "george-merricks": {
@@ -104,8 +104,8 @@ const BROKERS = {
     brokerName: "GEORGE MERRICKS",
     brokerPhone: "082 859 9303",
     brokerEmail: "george@auctioninc.co.za",
-    brokerPhotoCatalogue: "assets/brokers/george-merricks/catalogue.jpg",
-    brokerPhotoPresentation: "assets/brokers/george-merricks/presentation.png"
+    brokerPhotoCatalogue: "assets/brokers/george-merricks/broker-photo.jpg",
+    brokerPhotoPresentation: "assets/brokers/george-merricks/broker-photo.png"
   },
 
   "gerhard-venter": {
@@ -113,8 +113,8 @@ const BROKERS = {
     brokerName: "GERHARD VENTER",
     brokerPhone: "076 905 5519",
     brokerEmail: "gerhard@auctioninc.co.za",
-    brokerPhotoCatalogue: "assets/brokers/gerhard-venter/catalogue.jpg",
-    brokerPhotoPresentation: "assets/brokers/gerhard-venter/presentation.png"
+    brokerPhotoCatalogue: "assets/brokers/gerhard-venter/broker-photo.jpg",
+    brokerPhotoPresentation: "assets/brokers/gerhard-venter/broker-photo.png"
   },
 
   "jenny-pillay": {
@@ -122,8 +122,8 @@ const BROKERS = {
     brokerName: "JENNY PILLAY",
     brokerPhone: "063 959 2260",
     brokerEmail: "jenny@auctioninc.co.za",
-    brokerPhotoCatalogue: "assets/brokers/jenny-pillay/catalogue.jpg",
-    brokerPhotoPresentation: "assets/brokers/jenny-pillay/presentation.png"
+    brokerPhotoCatalogue: "assets/brokers/jenny-pillay/broker-photo.jpg",
+    brokerPhotoPresentation: "assets/brokers/jenny-pillay/broker-photo.png"
   },
 
   "jessica-beyers-lahner": {
@@ -131,8 +131,8 @@ const BROKERS = {
     brokerName: "JESSICA BEYERS-LAHNER",
     brokerPhone: "072 576 0973",
     brokerEmail: "jessica@auctioninc.co.za",
-    brokerPhotoCatalogue: "assets/brokers/jessica-beyers-lahner/catalogue.jpg",
-    brokerPhotoPresentation: "assets/brokers/jessica-beyers-lahner/presentation.png"
+    brokerPhotoCatalogue: "assets/brokers/jessica-beyers-lahner/broker-photo.jpg",
+    brokerPhotoPresentation: "assets/brokers/jessica-beyers-lahner/broker-photo.png"
   },
 
   "jodi-bedil": {
@@ -140,8 +140,8 @@ const BROKERS = {
     brokerName: "JODI BEDIL",
     brokerPhone: "076 637 1273",
     brokerEmail: "jodib@auctioninc.co.za",
-    brokerPhotoCatalogue: "assets/brokers/jodi-bedil/catalogue.jpg",
-    brokerPhotoPresentation: "assets/brokers/jodi-bedil/presentation.png"
+    brokerPhotoCatalogue: "assets/brokers/jodi-bedil/broker-photo.jpg",
+    brokerPhotoPresentation: "assets/brokers/jodi-bedil/broker-photo.png"
   },
 
   "jodi-frankel": {
@@ -149,8 +149,8 @@ const BROKERS = {
     brokerName: "JODI FRANKEL",
     brokerPhone: "082 441 8409",
     brokerEmail: "jodif@auctioninc.co.za",
-    brokerPhotoCatalogue: "assets/brokers/jodi-frankel/catalogue.jpg",
-    brokerPhotoPresentation: "assets/brokers/jodi-frankel/presentation.png"
+    brokerPhotoCatalogue: "assets/brokers/jodi-frankel/broker-photo.jpg",
+    brokerPhotoPresentation: "assets/brokers/jodi-frankel/broker-photo.png"
   },
 
   "keith-nkosi": {
@@ -158,8 +158,8 @@ const BROKERS = {
     brokerName: "KEITH NKOSI",
     brokerPhone: "081 828 1817",
     brokerEmail: "keith@auctioninc.co.za",
-    brokerPhotoCatalogue: "assets/brokers/keith-nkosi/catalogue.jpg",
-    brokerPhotoPresentation: "assets/brokers/keith-nkosi/presentation.png"
+    brokerPhotoCatalogue: "assets/brokers/keith-nkosi/broker-photo.jpg",
+    brokerPhotoPresentation: "assets/brokers/keith-nkosi/broker-photo.png"
   },
 
   "luanda-tlhotlhalemaje": {
@@ -167,8 +167,8 @@ const BROKERS = {
     brokerName: "LUANDA TLHOTLHALEMAJE",
     brokerPhone: "071 904 4061",
     brokerEmail: "luanda@skyriseproperties.co.za",
-    brokerPhotoCatalogue: "assets/brokers/luanda-tlhotlhalemaje/catalogue.jpg",
-    brokerPhotoPresentation: "assets/brokers/luanda-tlhotlhalemaje/presentation.png"
+    brokerPhotoCatalogue: "assets/brokers/luanda-tlhotlhalemaje/broker-photo.jpg",
+    brokerPhotoPresentation: "assets/brokers/luanda-tlhotlhalemaje/broker-photo.png"
   },
 
   "nic-brett": {
@@ -176,8 +176,8 @@ const BROKERS = {
     brokerName: "NIC BRETT",
     brokerPhone: "078 330 7523",
     brokerEmail: "nic@auctioninc.co.za",
-    brokerPhotoCatalogue: "assets/brokers/nic-brett/catalogue.jpg",
-    brokerPhotoPresentation: "assets/brokers/nic-brett/presentation.png"
+    brokerPhotoCatalogue: "assets/brokers/nic-brett/broker-photo.jpg",
+    brokerPhotoPresentation: "assets/brokers/nic-brett/broker-photo.png"
   },
 
   "reece-louw": {
@@ -185,8 +185,8 @@ const BROKERS = {
     brokerName: "REECE LOUW",
     brokerPhone: "076 393 1131",
     brokerEmail: "reece@auctioninc.co.za",
-    brokerPhotoCatalogue: "assets/brokers/reece-louw/catalogue.jpg",
-    brokerPhotoPresentation: "assets/brokers/reece-louw/presentation.png"
+    brokerPhotoCatalogue: "assets/brokers/reece-louw/broker-photo.jpg",
+    brokerPhotoPresentation: "assets/brokers/reece-louw/broker-photo.png"
   },
 
   "reshma-sookran": {
@@ -194,8 +194,8 @@ const BROKERS = {
     brokerName: "RESHMA SOOKRAN",
     brokerPhone: "071 876 6524",
     brokerEmail: "reshma@auctioninc.co.za",
-    brokerPhotoCatalogue: "assets/brokers/reshma-sookran/catalogue.jpg",
-    brokerPhotoPresentation: "assets/brokers/reshma-sookran/presentation.png"
+    brokerPhotoCatalogue: "assets/brokers/reshma-sookran/broker-photo.jpg",
+    brokerPhotoPresentation: "assets/brokers/reshma-sookran/broker-photo.png"
   },
 
   "shlomo-hecht": {
@@ -203,8 +203,8 @@ const BROKERS = {
     brokerName: "SHLOMO HECHT",
     brokerPhone: "073 791 7967",
     brokerEmail: "shlomo@auctioninc.co.za",
-    brokerPhotoCatalogue: "assets/brokers/shlomo-hecht/catalogue.jpg",
-    brokerPhotoPresentation: "assets/brokers/shlomo-hecht/presentation.png"
+    brokerPhotoCatalogue: "assets/brokers/shlomo-hecht/broker-photo.jpg",
+    brokerPhotoPresentation: "assets/brokers/shlomo-hecht/broker-photo.png"
   },
 
   "sim-mthembu": {
@@ -212,8 +212,8 @@ const BROKERS = {
     brokerName: "SIM MTHEMBU",
     brokerPhone: "063 829 7431",
     brokerEmail: "simphiwe@auctioninc.co.za",
-    brokerPhotoCatalogue: "assets/brokers/sim-mthembu/catalogue.jpg",
-    brokerPhotoPresentation: "assets/brokers/sim-mthembu/presentation.png"
+    brokerPhotoCatalogue: "assets/brokers/sim-mthembu/broker-photo.jpg",
+    brokerPhotoPresentation: "assets/brokers/sim-mthembu/broker-photo.png"
   },
 
   "stuart-holliman": {
@@ -221,8 +221,8 @@ const BROKERS = {
     brokerName: "STUART HOLLIMAN",
     brokerPhone: "067 373 9239",
     brokerEmail: "stuart@auctioninc.co.za",
-    brokerPhotoCatalogue: "assets/brokers/stuart-holliman/catalogue.jpg",
-    brokerPhotoPresentation: "assets/brokers/stuart-holliman/presentation.png"
+    brokerPhotoCatalogue: "assets/brokers/stuart-holliman/broker-photo.jpg",
+    brokerPhotoPresentation: "assets/brokers/stuart-holliman/broker-photo.png"
   },
 
   "thabani-ncube": {
@@ -230,8 +230,8 @@ const BROKERS = {
     brokerName: "THABANI NCUBE",
     brokerPhone: "071 624 2899",
     brokerEmail: "thabani@auctioninc.co.za",
-    brokerPhotoCatalogue: "assets/brokers/thabani-ncube/catalogue.jpg",
-    brokerPhotoPresentation: "assets/brokers/thabani-ncube/presentation.png"
+    brokerPhotoCatalogue: "assets/brokers/thabani-ncube/broker-photo.jpg",
+    brokerPhotoPresentation: "assets/brokers/thabani-ncube/broker-photo.png"
   },
 
   "yoni-dadon": {
@@ -239,8 +239,8 @@ const BROKERS = {
     brokerName: "YONI DADON",
     brokerPhone: "061 822 6128",
     brokerEmail: "yoni@auctioninc.co.za",
-    brokerPhotoCatalogue: "assets/brokers/yoni-dadon/catalogue.jpg",
-    brokerPhotoPresentation: "assets/brokers/yoni-dadon/presentation.png"
+    brokerPhotoCatalogue: "assets/brokers/yoni-dadon/broker-photo.jpg",
+    brokerPhotoPresentation: "assets/brokers/yoni-dadon/broker-photo.png"
   }
 
 
@@ -571,5 +571,6 @@ async function generateAndDownload(templateType) {
 
   container.innerHTML = '';
 }
+
 
 
