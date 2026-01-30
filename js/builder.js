@@ -1,6 +1,6 @@
-// js/builder.js (FINAL - separate broker photos for catalogue vs presentation)
+// js/builder.js (FINAL - Auto-detect broker + separate JPG/PNG photos + fit contact block)
 
-async function waitForElement(selector, root = document, timeout = 1000) {
+async function waitForElement(selector, root = document, timeout = 1500) {
   const start = Date.now();
   while (!root.querySelector(selector)) {
     await new Promise(r => requestAnimationFrame(r));
@@ -27,70 +27,51 @@ function normalizeSpaces(s = "") {
   return s.replace(/\s+/g, " ").trim();
 }
 
-function findEmail(texts) {
-  const all = texts.join(" ");
-  const m = all.match(/[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}/i);
-  return m ? m[0] : "";
+function slugifyName(name = "") {
+  return name
+    .toLowerCase()
+    .replace(/[^a-z\s-]/g, "")
+    .replace(/\s+/g, "-")
+    .replace(/-+/g, "-")
+    .trim();
 }
 
-function findPhone(texts) {
-  const all = texts.join(" ");
-  const m = all.match(/(\+27|0)\s?\d{2}\s?\d{3}\s?\d{4}/);
-  return m ? normalizeSpaces(m[0]) : "";
-}
-
-function findBrokerName(texts) {
-  for (let i = 0; i < texts.length; i++) {
-    const t = (texts[i] || "").toLowerCase();
-    if (t.includes("broker")) {
-      for (let j = i + 1; j < Math.min(i + 10, texts.length); j++) {
-        const candidate = (texts[j] || "").trim();
-        if (!candidate) continue;
-        if (candidate === ":" || candidate.endsWith(":")) continue;
-        if (candidate.includes("@")) continue;
-        if (/\d/.test(candidate)) continue;
-        if (candidate.length < 3) continue;
-        return candidate.toUpperCase();
-      }
-    }
-  }
-  return "";
-}
-
-async function getBrokerPhotoOverride() {
-  const file = document.getElementById("broker-photo")?.files?.[0];
-  if (!file) return "";
-  const reader = new FileReader();
-  return await new Promise(resolve => {
-    reader.onload = () => resolve(reader.result);
-    reader.readAsDataURL(file);
-  });
-}
-
-// -----------------------------
-// Broker Library (separate photos)
-// -----------------------------
+// -----------------------------------------
+// Broker library (JPG for catalogue, PNG for presentation)
+// Add everyone here over time.
+// -----------------------------------------
 const BROKERS = {
-  ALEX: {
+  "jodi-bedil": {
+    brokerName: "JODI BEDIL",
+    brokerPhone: "076 637 1273",
+    brokerEmail: "jodib@auctioninc.co.za",
+    brokerPhotoCatalogue: "assets/brokers/jodi-bedil/catalogue.jpg",
+    brokerPhotoPresentation: "assets/brokers/jodi-bedil/presentation.png"
+  },
+  "alex-krause": {
     brokerName: "ALEX KRAUSE",
     brokerPhone: "078 549 2029",
     brokerEmail: "alex@auctioninc.co.za",
-    brokerPhotoCatalogue: "assets/broker-photo.jpg",     // ✅ catalogue uses JPG
-    brokerPhotoPresentation: "assets/broker-photo.png"   // ✅ presentation uses PNG
+    brokerPhotoCatalogue: "assets/brokers/alex-krause/catalogue.jpg",
+    brokerPhotoPresentation: "assets/brokers/alex-krause/presentation.png"
+  },
+  "gary-brower": {
+    brokerName: "GARY BROWER",
+    brokerPhone: "",   // fill in once you add it
+    brokerEmail: "",   // fill in once you add it
+    brokerPhotoCatalogue: "assets/brokers/gary-brower/catalogue.jpg",
+    brokerPhotoPresentation: "assets/brokers/gary-brower/presentation.png"
   }
+  // Add the rest of AuctionInc brokers the same way
 };
 
-function brokerFromSelection(selection) {
-  if (!selection || selection === "AUTO" || selection === "CUSTOM") return null;
-  return BROKERS[selection] || null;
-}
-
-// -----------------------------
-// DOCX Extraction
-// -----------------------------
+// -----------------------------------------
+// DOCX extraction (strict broker parsing)
+// Supports:
+// "Broker: Jodi Bedil | 076 637 1273 | jodib@auctioninc.co.za"
+// -----------------------------------------
 async function extractDocxFields() {
-  const fileInput = document.getElementById("docx-file");
-  const file = fileInput?.files?.[0];
+  const file = document.getElementById("docx-file")?.files?.[0];
   if (!file) return {};
 
   const buffer = await file.arrayBuffer();
@@ -104,6 +85,7 @@ async function extractDocxFields() {
     .map(t => (t.textContent || "").trim())
     .filter(Boolean);
 
+  // Standard fields
   const fieldMap = {
     "Headline": "headline",
     "City": "city",
@@ -133,59 +115,55 @@ async function extractDocxFields() {
     }
   }
 
-  // ✅ Broker extraction
-  values.docxBrokerName = findBrokerName(texts);
-  values.docxBrokerEmail = findEmail(texts);
-  values.docxBrokerPhone = findPhone(texts);
+  // ✅ Strict broker parse
+  // Find first text chunk that contains "broker"
+  const brokerLine = texts.find(t => /broker/i.test(t)) || "";
+  // Example: "Broker: Jodi Bedil | 076 637 1273 | jodib@auctioninc.co.za"
+  let brokerName = "";
+  let brokerPhone = "";
+  let brokerEmail = "";
+
+  if (brokerLine) {
+    const afterColon = brokerLine.split(":").slice(1).join(":").trim();
+    const parts = afterColon.split("|").map(p => normalizeSpaces(p));
+    brokerName = (parts[0] || "").trim();
+    brokerPhone = (parts[1] || "").trim();
+    brokerEmail = (parts[2] || "").trim();
+  }
+
+  values.docxBrokerName = brokerName;
+  values.docxBrokerPhone = brokerPhone;
+  values.docxBrokerEmail = brokerEmail;
 
   return values;
 }
 
-// -----------------------------
+// -----------------------------------------
 // Data collection
-// -----------------------------
+// -----------------------------------------
 async function collectCatalogueFormData() {
   const docxFields = await extractDocxFields();
 
-  const selection = document.getElementById("broker-select")?.value || "AUTO";
-  const selectedBroker = brokerFromSelection(selection);
+  const nameRaw = (docxFields.docxBrokerName || "AUCTIONINC").trim();
+  const nameUpper = nameRaw ? nameRaw.toUpperCase() : "AUCTIONINC";
+  const slug = slugifyName(nameRaw);
 
-  // Defaults
-  let brokerName = "AUCTIONINC";
-  let brokerPhone = "";
-  let brokerEmail = "";
-  let brokerPhotoCatalogue = "assets/broker-photo.jpg";
-  let brokerPhotoPresentation = "assets/broker-photo.png";
+  // Defaults if broker not in library yet:
+  let brokerName = nameUpper;
+  let brokerPhone = docxFields.docxBrokerPhone || "";
+  let brokerEmail = docxFields.docxBrokerEmail || "";
 
-  if (selection === "CUSTOM") {
-    brokerName = (document.getElementById("broker-name")?.value || "AUCTIONINC").toUpperCase();
-    brokerPhone = document.getElementById("broker-phone")?.value || "";
-    brokerEmail = document.getElementById("broker-email")?.value || "";
+  // Default fallback images (you can keep Alex as fallback, or add a generic)
+  let brokerPhotoCatalogue = "assets/brokers/alex-krause/catalogue.jpg";
+  let brokerPhotoPresentation = "assets/brokers/alex-krause/presentation.png";
 
-    const overridePhoto = await getBrokerPhotoOverride();
-    if (overridePhoto) {
-      brokerPhotoCatalogue = overridePhoto;
-      brokerPhotoPresentation = overridePhoto;
-    }
-  } else if (selectedBroker) {
-    ({ brokerName, brokerPhone, brokerEmail, brokerPhotoCatalogue, brokerPhotoPresentation } = selectedBroker);
-
-    const overridePhoto = await getBrokerPhotoOverride();
-    if (overridePhoto) {
-      brokerPhotoCatalogue = overridePhoto;
-      brokerPhotoPresentation = overridePhoto;
-    }
-  } else {
-    // AUTO from DOCX
-    brokerName = (docxFields.docxBrokerName || "AUCTIONINC").toUpperCase();
-    brokerPhone = docxFields.docxBrokerPhone || "";
-    brokerEmail = docxFields.docxBrokerEmail || "";
-
-    const overridePhoto = await getBrokerPhotoOverride();
-    if (overridePhoto) {
-      brokerPhotoCatalogue = overridePhoto;
-      brokerPhotoPresentation = overridePhoto;
-    }
+  // If broker exists in library, use canonical details + correct photos
+  if (BROKERS[slug]) {
+    brokerName = BROKERS[slug].brokerName || brokerName;
+    brokerPhone = BROKERS[slug].brokerPhone || brokerPhone;
+    brokerEmail = BROKERS[slug].brokerEmail || brokerEmail;
+    brokerPhotoCatalogue = BROKERS[slug].brokerPhotoCatalogue || brokerPhotoCatalogue;
+    brokerPhotoPresentation = BROKERS[slug].brokerPhotoPresentation || brokerPhotoPresentation;
   }
 
   return {
@@ -202,9 +180,9 @@ async function collectCatalogueFormData() {
   };
 }
 
-// -----------------------------
+// -----------------------------------------
 // Template loader & rendering
-// -----------------------------
+// -----------------------------------------
 async function loadTemplate(templatePath, targetId, data) {
   const res = await fetch(templatePath);
   let html = await res.text();
@@ -216,10 +194,10 @@ async function loadTemplate(templatePath, targetId, data) {
     }
   }
 
-  // Dynamic ERF/GLA combo logic
+  // ERF/GLA combo
   let erfGlaText = '';
   if (data.erf && data.gla) {
-    erfGlaText = `ERF Size: ${data.erf}   |   GLA: ${data.gla}`;
+    erfGlaText = `GLA: ${data.gla}`;
   } else if (data.erf) {
     erfGlaText = `ERF Size: ${data.erf}`;
   } else if (data.gla) {
@@ -239,11 +217,8 @@ async function loadTemplate(templatePath, targetId, data) {
   await waitForImagesToLoad(target);
 
   let containerSelector = '';
-  if (templatePath.includes('catalogue_page')) {
-    containerSelector = '#capture-container-catalogue_page';
-  } else if (templatePath.includes('presentation')) {
-    containerSelector = '#capture-container-presentation';
-  }
+  if (templatePath.includes('catalogue_page')) containerSelector = '#capture-container-catalogue_page';
+  if (templatePath.includes('presentation')) containerSelector = '#capture-container-presentation';
 
   const container = await waitForElement(containerSelector, target);
   if (container) runFontResize(container);
@@ -261,9 +236,7 @@ function waitForImagesToLoad(container) {
       img.onload = img.onerror = resolve;
     })
   );
-  return Promise.all(promises).then(
-    () => new Promise(r => requestAnimationFrame(() => r()))
-  );
+  return Promise.all(promises).then(() => new Promise(r => requestAnimationFrame(r)));
 }
 
 function drawCatalogueRedTagCanvasImage(canvasId) {
@@ -282,58 +255,57 @@ function drawCatalogueRedTagCanvasImage(canvasId) {
     ctx.restore();
   };
 
-  redTag.src = 'assets/red-tag.png';
+  redTag.src = 'assets/shared/red-tag.png';
 }
 
-// -----------------------------
-// Font resize
-// -----------------------------
-function adjustFontSize(textbox) {
-  const span = textbox.querySelector('span');
-  if (!span) return;
-
-  const text = span.innerText;
-  const maxWidth = textbox.offsetWidth - 20;
-  const maxHeight = textbox.offsetHeight - 20;
-  let fontSize = 200;
-
-  const dummy = document.createElement('span');
-  dummy.style.visibility = 'hidden';
-  dummy.style.position = 'absolute';
-  dummy.style.fontSize = fontSize + 'px';
-  dummy.style.fontFamily = 'Roboto, sans-serif';
-  dummy.innerText = text;
-  document.body.appendChild(dummy);
-
-  while ((dummy.offsetWidth > maxWidth || dummy.offsetHeight > maxHeight) && fontSize > 5) {
-    fontSize--;
-    dummy.style.fontSize = fontSize + 'px';
-  }
-
+// -----------------------------------------
+// Font resize utilities
+// -----------------------------------------
+function fitSpanToBox(span, maxWidth, maxHeight, startSize = 80, minSize = 10) {
+  let fontSize = startSize;
   span.style.fontSize = fontSize + 'px';
-  document.body.removeChild(dummy);
+
+  // quick measurement loop
+  while ((span.scrollWidth > maxWidth || span.scrollHeight > maxHeight) && fontSize > minSize) {
+    fontSize--;
+    span.style.fontSize = fontSize + 'px';
+  }
 }
 
 function runFontResize(container) {
-  const ids = [
-    'textboxA', 'textboxB', 'textboxC', 'textboxD',
-    'textbox_1_Red_Tag', 'textbox_2_Red_Tag',
+  // Standard single-span textboxes (unchanged)
+  const singleSpanIds = [
+    'textboxA','textboxB','textboxC','textboxD',
+    'textbox_1_Red_Tag','textbox_2_Red_Tag',
     'textbox_Red_Banner',
-    'textbox_Heading1', 'textbox_Heading2',
-    'textbox_Feature_1', 'textbox_Feature_2', 'textbox_Feature_3',
-    'textbox_1_Broker_Name', 'textbox_2_Broker_Number',
-    'textbox_suburb', 'textbox_title', 'textboxRT1', 'textboxRT2', 'textbox_Contact_Details'
+    'textbox_Heading1','textbox_Heading2',
+    'textbox_Feature_1','textbox_Feature_2','textbox_Feature_3',
+    'textbox_1_Broker_Name','textbox_2_Broker_Number'
   ];
 
-  ids.forEach(id => {
+  singleSpanIds.forEach(id => {
     const el = container.querySelector(`#${id}`);
-    if (el && el.querySelector('span')) adjustFontSize(el);
+    const span = el?.querySelector('span');
+    if (!el || !span) return;
+    const maxW = el.clientWidth - 20;
+    const maxH = el.clientHeight - 20;
+    fitSpanToBox(span, maxW, maxH, 120, 8);
   });
+
+  // ✅ Catalogue contact details: fit each line so nothing overlaps
+  const contact = container.querySelector('#textbox_Contact_Details');
+  if (contact) {
+    const spans = contact.querySelectorAll('span');
+    spans.forEach((sp) => {
+      // each line must fit width; height is line height-ish
+      fitSpanToBox(sp, contact.clientWidth - 10, 45, 42, 18);
+    });
+  }
 }
 
-// -----------------------------
-// Download logic (blob-based)
-// -----------------------------
+// -----------------------------------------
+// Download logic
+// -----------------------------------------
 async function downloadCanvasAsPng(canvas, filename) {
   if (canvas.toBlob) {
     return new Promise((resolve) => {
@@ -384,15 +356,6 @@ async function generateAndDownload(templateType) {
     return;
   }
 
-  // Preload red tag
-  const redTag = new Image();
-  redTag.crossOrigin = 'anonymous';
-  redTag.src = 'assets/red-tag.png';
-  await new Promise(resolve => {
-    redTag.onload = resolve;
-    redTag.onerror = resolve;
-  });
-
   await loadTemplate(templatePath, targetId, JSON.parse(JSON.stringify(data)));
 
   const wrapper = document.getElementById(targetId);
@@ -423,18 +386,3 @@ async function generateAndDownload(templateType) {
   container.innerHTML = '';
 }
 
-// -----------------------------
-// UI wiring
-// -----------------------------
-document.addEventListener("DOMContentLoaded", () => {
-  const select = document.getElementById("broker-select");
-  const custom = document.getElementById("custom-broker-fields");
-
-  if (select && custom) {
-    const refresh = () => {
-      custom.style.display = (select.value === "CUSTOM") ? "block" : "none";
-    };
-    select.addEventListener("change", refresh);
-    refresh();
-  }
-});
