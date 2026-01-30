@@ -23,6 +23,15 @@
       <input type="text" id="lot" style="width:100%;" placeholder="e.g. LOT 11" />
     </label>
 
+    <!-- ✅ NEW: Broker dropdown -->
+    <label style="display:block; margin-bottom:10px;">
+      Select Broker:
+      <select id="broker-select" style="width:100%; padding:8px;">
+        <!-- populated by builder.js -->
+      </select>
+    </label>
+    <div class="hint">Broker contact details + photos come from the dropdown selection.</div>
+
     <label style="display:block; margin-bottom:10px;">
       Upload Property Image:
       <input type="file" id="property-img" accept="image/*" />
@@ -37,7 +46,7 @@
       Upload Word Document (Property Summary):
       <input type="file" id="docx-file" accept=".docx" />
     </label>
-    <div class="hint">Broker details are auto-detected from the DOCX.</div>
+    <div class="hint">Property fields are extracted from the DOCX (headline, suburb, features, etc.).</div>
 
     <button type="button" onclick="generateAndDownload('catalogue_page')">
       Download Catalogue Page
@@ -64,5 +73,7 @@
   <script src="js/builder.js"></script>
 </body>
 </html>
+
+
 
 
