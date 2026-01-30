@@ -1,0 +1,174 @@
+<!-- templates/catalogue_page.html (FINAL - separate broker photo placeholder) -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=2480, height=3508, initial-scale=1">
+  <title>Alex Catalogue Page Auto</title>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@900&display=swap" rel="stylesheet">
+  <style>
+    body, html { margin: 0; padding: 0; background-color: white; }
+
+    .overlay-image_catalogue {
+      position: absolute; top: 0px; left: 0px;
+      width: 2480px; height: 3508px; object-fit: cover;
+    }
+
+    .overlay-image_property, .overlay-image_map {
+      position: absolute; z-index: 2; object-fit: cover;
+    }
+
+    .overlay-image_property {
+      top: 265px; left: 42px; width: 2405px; height: 1318px;
+    }
+
+    .overlay-image_map {
+      top: 2240px; left: 42px; width: 2405px; height: 1315px;
+    }
+
+    .overlay-image_Broker_Photo {
+      position: absolute;
+      top: 1703.8px;
+      left: 2069px;
+      height: 378px;
+      z-index: 11;
+    }
+
+    .textbox {
+      position: absolute;
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Roboto', sans-serif;
+      font-weight: 900;
+      text-align: center;
+      overflow: hidden;
+    }
+
+    .textboxA {
+      width: 348px; height: 211px; left: 34px; top: 20px;
+      text-transform: uppercase; font-size: 150px; z-index: 1;
+    }
+
+    .textboxB {
+      width: 1900px; height: 350px; position: absolute;
+      left: 444px; top: 40px; text-transform: uppercase; font-size: 200px;
+      text-align: left; white-space: nowrap; padding: 0; margin: 0; z-index: 1;
+      box-sizing: border-box; border:none; overflow: visible;
+      display: flex; align-items: flex-start; justify-content: flex-start;
+    }
+
+    .textboxC {
+      width: 2400px; height: 85px; left: 42px; top: 1600px;
+      font-size: 100px; text-align: center; white-space: nowrap;
+      padding: 0; margin: 0; z-index: 1;
+    }
+
+    .textboxD {
+      width: 2006px; height: 170px; position: absolute;
+      left: 94px; top: 2085px; text-transform: uppercase; font-size: 100px;
+      text-align: left; color: rgb(227,31,42); white-space: nowrap;
+      padding: 0; margin: 0; z-index: 1; box-sizing: border-box;
+      border:none; overflow: hidden; display: flex;
+      align-items: flex-start; justify-content: flex-start;
+    }
+
+    .textbox_Features {
+      position: absolute; padding: 10px; font-family: 'Roboto', sans-serif;
+      width: 2000px; height: 350px; font-weight: 900; color: black;
+      font-size: 65px; z-index: 12; display: flex; flex-direction: column;
+      align-items: flex-start; overflow: visible;
+    }
+
+    .textbox_Features span { white-space: nowrap; letter-spacing: 0; margin-bottom: 10px; }
+    .textbox_Features span:last-child { margin-bottom: 0; }
+
+    .textbox_Contact_Details {
+      position: absolute;
+      padding: 10px;
+      font-family: 'Roboto Flex', sans-serif;
+      width: 364px;
+      height: 160px;
+      font-weight: 400;
+      color: white;
+      font-size: 35px;
+      z-index: 8;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+    }
+
+    .textbox_Contact_Details span { white-space: nowrap; margin-bottom: 3px; }
+    .textbox_Contact_Details span:first-child {
+      font-weight: 900; color: rgb(227, 31, 42); text-transform: uppercase;
+    }
+
+    .textbox_1_Red_Tag, .textbox_2_Red_Tag {
+      position: absolute; padding: 10px; font-family: 'Roboto', sans-serif;
+      font-weight: 900; color: white; white-space: nowrap; z-index: 5;
+      text-transform: uppercase; display: flex; justify-content: center;
+      align-items: center; transform: rotate(38deg);
+    }
+
+    .textbox_1_Red_Tag { width: 480px; height: 150px; }
+    .textbox_2_Red_Tag { width: 730px; height: 150px; }
+
+    .textbox_1_Red_Tag span, .textbox_2_Red_Tag span {
+      text-align: center; width: 100%; box-sizing: border-box; font-size: 100px;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="capture-container-catalogue_page" style="position: relative; width: 2480px; height: 3508px;">
+    <canvas id="social-property-canvas" width="2480" height="3508" style="display: none;"></canvas>
+
+    <img src="assets/catalogue-image.jpg" class="overlay-image_catalogue" alt="Catalogue Image">
+    <img src="{{propertyImage}}" class="overlay-image_property" alt="Property Image">
+    <img src="{{mapImage}}" class="overlay-image_map" alt="Property Map">
+
+    <!-- ✅ Catalogue uses its own broker photo -->
+    <img src="{{brokerPhotoCatalogue}}" class="overlay-image_Broker_Photo" alt="Broker Photo">
+
+    <canvas id="catalogue-red-tag-canvas" width="845" height="688"
+      style="position: absolute; top: 219px; left: 1659px; z-index: 4;"></canvas>
+
+    <div id="textboxA" class="textbox textboxA">
+      <span id="lot-span">LOT {{lot}}</span>
+    </div>
+
+    <div id="textboxB" class="textbox textboxB">
+      <span>{{headline}}</span>
+    </div>
+
+    <div id="textboxC" class="textbox textboxC">
+      <span>{{erfGlaText}}</span>
+    </div>
+
+    <div id="textboxD" class="textbox textboxD">
+      <span>{{suburb}}&nbsp;&nbsp;{{city}}</span>
+    </div>
+
+    <div class="textbox_1_Red_Tag" id="textbox_1_Red_Tag" style="top: 360px; left: 1980px;">
+      <span>{{tag1}}</span>
+    </div>
+
+    <div class="textbox_2_Red_Tag" id="textbox_2_Red_Tag" style="top: 445px; left: 1780px;">
+      <span>{{tag2}}</span>
+    </div>
+
+    <div class="textbox_Features" id="featuresBox" style="top: 1750px; left: 87px;">
+      <span>•<span class="non-breaking-space">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>{{feat1}}</span>
+      <span>•<span class="non-breaking-space">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>{{feat2}}</span>
+      <span>•<span class="non-breaking-space">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>{{feat3}}</span>
+    </div>
+
+    <div class="textbox_Contact_Details" id="textbox_Contact_Details" style="top: 2085px; left: 2045px;">
+      <span>{{brokerName}}</span>
+      <span>{{brokerPhone}}</span>
+      <span>{{brokerEmail}}</span>
+    </div>
+  </div>
+</body>
+</html>
