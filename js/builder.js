@@ -171,6 +171,15 @@ const BROKERS = {
     brokerPhotoPresentation: "assets/brokers/luanda-tlhotlhalemaje/broker-photo.png"
   },
 
+ "natasha-du-toit": {
+   displayName: "Natasha Du Toit",
+   brokerName: "NATASHA DU TOIT",
+   brokerPhone: "066 296 6420",
+   brokerEmail: "natasha@auctioninc.co.za",
+   brokerPhotoCatalogue: "assets/brokers/natasha-du-toit/broker-photo.jpg",
+   brokerPhotoPresentation: "assets/brokers/natasha-du-toit/broker-photo.png"
+  },
+
   "nic-brett": {
     displayName: "Nic Brett",
     brokerName: "NIC BRETT",
