@@ -63,13 +63,13 @@ const BROKERS = {
     brokerPhotoPresentation: "assets/brokers/daniel-wachenheimer/broker-photo.png"
   },
 
-  "dean-doucha": {
-    displayName: "Dean Doucha",
-    brokerName: "DEAN DOUCHA",
-    brokerPhone: "082 374 5565",
-    brokerEmail: "dean@auctioninc.co.za",
-    brokerPhotoCatalogue: "assets/brokers/dean-doucha/broker-photo.jpg",
-    brokerPhotoPresentation: "assets/brokers/dean-doucha/broker-photo.png"
+  "dean-nathan": {
+    displayName: "Dean Nathan",
+    brokerName: "DEAN NATHAN",
+    brokerPhone: "082 359 4848",
+    brokerEmail: "deanN@auctioninc.co.za",
+    brokerPhotoCatalogue: "assets/brokers/dean-nathan/broker-photo.jpg",
+    brokerPhotoPresentation: "assets/brokers/dean-nathan/broker-photo.png"
   },
 
   "doron-sacks": {
@@ -189,13 +189,13 @@ const BROKERS = {
     brokerPhotoPresentation: "assets/brokers/nic-brett/broker-photo.png"
   },
 
-  "reece-louw": {
-    displayName: "Reece Louw",
-    brokerName: "REECE LOUW",
-    brokerPhone: "076 393 1131",
-    brokerEmail: "reece@auctioninc.co.za",
-    brokerPhotoCatalogue: "assets/brokers/reece-louw/broker-photo.jpg",
-    brokerPhotoPresentation: "assets/brokers/reece-louw/broker-photo.png"
+  "pnina-spinner": {
+    displayName: "Pnina Spinner",
+    brokerName: "PNINA SPINNER",
+    brokerPhone: "073 029 4341",
+    brokerEmail: "pnina@auctioninc.co.za",
+    brokerPhotoCatalogue: "assets/brokers/pnina-spinner/broker-photo.jpg",
+    brokerPhotoPresentation: "assets/brokers/pnina-spinner/broker-photo.png"
   },
 
   "reshma-sookran": {
