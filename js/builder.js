@@ -217,6 +217,15 @@ const BROKERS = {
     brokerPhotoPresentation: "assets/brokers/reshma-sookran/broker-photo.png"
   },
 
+  "saul-novick": {
+    displayName: "Saul Novick",
+    brokerName: "SAUL NOVICK",
+    brokerPhone: "073 475 2104",
+    brokerEmail: "saul@auctioninc.co.za",
+    brokerPhotoCatalogue: "assets/brokers/saul-novick/broker-photo.jpg",
+    brokerPhotoPresentation: "assets/brokers/saul-novick/broker-photo.png"
+  },
+
   "shlomo-hecht": {
     displayName: "Shlomo Hecht",
     brokerName: "SHLOMO HECHT",
